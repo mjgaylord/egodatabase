@@ -293,7 +293,12 @@ valistArray;\
 					dataWithBytes:sqlite3_column_text(statement,x)
 					length:sqlite3_column_bytes(statement,x)]];
 			} else if (sqlite3_column_text(statement,x) != NULL) {
-				[row.columnData addObject:[[[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(statement,x)] autorelease]];
+				NSString *string = [[[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(statement,x)] autorelease];
+				if (string) {
+					[row.columnData addObject:string];
+				} else {
+					[row.columnData addObject:@""];
+				}
 			} else {
 				[row.columnData addObject:@""];
 			}
